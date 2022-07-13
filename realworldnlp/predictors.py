@@ -13,7 +13,7 @@ from typing import List
 class SentenceClassifierPredictor(Predictor):
     def __init__(self, model: Model, dataset_reader: DatasetReader) -> None:
         super().__init__(model, dataset_reader)
-        self.tokenizer = dataset_reader._tokenizer or SpacyTokenizer()
+        self.tokenizer = dataset_reader.tokenizer or SpacyTokenizer()
 
     def predict(self, sentence: str) -> JsonDict:
         return self.predict_json({"sentence" : sentence})
