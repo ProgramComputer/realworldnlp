@@ -16,7 +16,7 @@ class SentenceClassifierPredictor(Predictor):
         super().__init__(model, dataset_reader)
         self._language = language
         print(self.__dict__.keys())
-        self._tokenizer = dataset_reader.tokenizer or SpacyTokenizer()
+        self._tokenizer = dataset_reader._tokenizer or SpacyTokenizer()
 
     def predict(self, sentence: str) -> JsonDict:
         return self.predict_json({"sentence" : sentence})
