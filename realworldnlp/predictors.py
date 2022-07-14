@@ -11,11 +11,10 @@ from typing import List
 # Note that you need to use "@Predictor.register", not "@Model.register"!
 @Predictor.register("sentence_classifier_predictor")
 class SentenceClassifierPredictor(Predictor):
-    def __init__(self, model: Model, dataset_reader: DatasetReader,language: str = "en_core_web_sm"
+    def __init__(self, model: Model, dataset_reader: DatasetReader,tokenizer: Tokenizer = None,language: str = "en_core_web_sm"
     ) -> None:
         super().__init__(model, dataset_reader)
         self._language = language
-        print(self.__dict__.keys())
         self._tokenizer = dataset_reader.tokenizer or SpacyTokenizer()
 
     def predict(self, sentence: str) -> JsonDict:
