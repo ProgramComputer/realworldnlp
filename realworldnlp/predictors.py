@@ -11,10 +11,12 @@ from typing import List
 # Note that you need to use "@Predictor.register", not "@Model.register"!
 @Predictor.register("sentence_classifier_predictor")
 class SentenceClassifierPredictor(Predictor):
-    def __init__(self, model: Model, dataset_reader: DatasetReader) -> None:
+    def __init__(self, model: Model, dataset_reader: DatasetReader,language: str = "en_core_web_sm"
+    ) -> None:
         super().__init__(model, dataset_reader)
+        self._language = language
         print(self.__dict__.keys())
-       # self.tokenizer = dataset_reader.tokenizer or SpacyTokenizer()
+        self._tokenizer = dataset_reader.tokenizer or SpacyTokenizer()
 
     def predict(self, sentence: str) -> JsonDict:
         return self.predict_json({"sentence" : sentence})
@@ -22,7 +24,7 @@ class SentenceClassifierPredictor(Predictor):
     @overrides
     def _json_to_instance(self, json_dict: JsonDict) -> Instance:
         sentence = json_dict["sentence"]
-        tokens = self.tokenizer.tokenize(sentence)
+        tokens = self._tokenizer.tokenize(sentence)
         return self._dataset_reader.text_to_instance([str(t) for t in tokens])
 
 
